@@ -1,0 +1,18 @@
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+
+from quotes.views import download_attachment
+
+admin.site.site_header = "Julyma Admin"
+admin.site.site_title = "Julyma Admin"
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("admin-files/quotes/<int:pk>/attachment/", download_attachment, name="quote-attachment"),
+    path("api/", include("catalog.urls")),
+    path("api/", include("quotes.urls")),
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
